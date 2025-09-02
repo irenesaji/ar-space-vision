@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				serif: ['Playfair Display', 'serif'],
+				playfair: ['Playfair Display', 'serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -26,7 +31,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +57,18 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				ar: {
+					overlay: 'hsl(var(--ar-overlay))',
+					'overlay-foreground': 'hsl(var(--ar-overlay-foreground))',
+					control: 'hsl(var(--ar-control))',
+					'control-foreground': 'hsl(var(--ar-control-foreground))',
+				},
+				surface: {
+					detected: 'hsl(var(--surface-detected))',
+				},
+				model: {
+					highlight: 'hsl(var(--model-highlight))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
