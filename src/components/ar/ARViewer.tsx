@@ -26,7 +26,7 @@ interface ARViewerProps {
   onBack: () => void
 }
 
-// Simple 3D furniture model component
+// Realistic 3D furniture model component based on reference designs
 function FurnitureModel({ modelUrl, position, rotation, scale, color }: {
   modelUrl: string
   position: [number, number, number]
@@ -34,66 +34,161 @@ function FurnitureModel({ modelUrl, position, rotation, scale, color }: {
   scale: number
   color: string
 }) {
-  // Create a simple geometric representation since we don't have actual .glb files
   const getGeometry = () => {
-    if (modelUrl.includes('chair')) {
+    if (modelUrl.includes('chair1')) {
+      // Modern shell chair with arms and wooden legs
       return (
         <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
-          {/* Chair seat */}
-          <mesh position={[0, 0.5, 0]}>
-            <boxGeometry args={[1, 0.1, 1]} />
-            <meshStandardMaterial color={color} />
+          {/* Chair shell seat */}
+          <mesh position={[0, 0.45, 0]} rotation={[-0.1, 0, 0]}>
+            <sphereGeometry args={[0.65, 16, 8, 0, Math.PI * 2, 0, Math.PI * 0.7]} />
+            <meshStandardMaterial color="#A8B8C8" roughness={0.7} />
           </mesh>
-          {/* Chair back */}
-          <mesh position={[0, 1.2, -0.4]}>
-            <boxGeometry args={[1, 1.2, 0.1]} />
-            <meshStandardMaterial color={color} />
+          {/* Chair back with curve */}
+          <mesh position={[0, 0.9, -0.3]} rotation={[0.2, 0, 0]}>
+            <sphereGeometry args={[0.6, 16, 8, 0, Math.PI * 2, Math.PI * 0.3, Math.PI * 0.4]} />
+            <meshStandardMaterial color="#A8B8C8" roughness={0.7} />
           </mesh>
-          {/* Chair legs */}
-          {[[-0.4, -0.4], [0.4, -0.4], [-0.4, 0.4], [0.4, 0.4]].map(([x, z], i) => (
-            <mesh key={i} position={[x, 0, z]}>
-              <cylinderGeometry args={[0.05, 0.05, 1]} />
-              <meshStandardMaterial color="#8B4513" />
+          {/* Armrests */}
+          <mesh position={[-0.45, 0.65, -0.1]} rotation={[0, 0, -0.3]}>
+            <cylinderGeometry args={[0.08, 0.1, 0.4]} />
+            <meshStandardMaterial color="#A8B8C8" roughness={0.7} />
+          </mesh>
+          <mesh position={[0.45, 0.65, -0.1]} rotation={[0, 0, 0.3]}>
+            <cylinderGeometry args={[0.08, 0.1, 0.4]} />
+            <meshStandardMaterial color="#A8B8C8" roughness={0.7} />
+          </mesh>
+          {/* Wooden legs */}
+          {[[-0.3, -0.2], [0.3, -0.2], [-0.3, 0.3], [0.3, 0.3]].map(([x, z], i) => (
+            <mesh key={i} position={[x, 0, z]} rotation={[0.05, 0, i % 2 === 0 ? 0.05 : -0.05]}>
+              <cylinderGeometry args={[0.03, 0.04, 0.9]} />
+              <meshStandardMaterial color="#D2691E" roughness={0.8} />
             </mesh>
           ))}
         </group>
       )
-    } else if (modelUrl.includes('sofa')) {
+    } else if (modelUrl.includes('chair2')) {
+      // Modern organic curved armchair
       return (
         <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
-          {/* Sofa base */}
-          <mesh position={[0, 0.3, 0]}>
-            <boxGeometry args={[2.5, 0.6, 1]} />
-            <meshStandardMaterial color={color} />
+          {/* Main body curved shell */}
+          <mesh position={[0, 0.5, 0]}>
+            <sphereGeometry args={[0.7, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.8]} />
+            <meshStandardMaterial color="#D2B48C" roughness={0.6} />
           </mesh>
-          {/* Sofa back */}
-          <mesh position={[0, 0.8, -0.4]}>
-            <boxGeometry args={[2.5, 1, 0.2]} />
-            <meshStandardMaterial color={color} />
+          {/* Back support */}
+          <mesh position={[0, 0.8, -0.35]} rotation={[0.3, 0, 0]}>
+            <sphereGeometry args={[0.55, 12, 8, 0, Math.PI * 2, Math.PI * 0.2, Math.PI * 0.4]} />
+            <meshStandardMaterial color="#D2B48C" roughness={0.6} />
           </mesh>
-          {/* Sofa arms */}
-          <mesh position={[-1.1, 0.8, 0]}>
-            <boxGeometry args={[0.3, 1, 1]} />
-            <meshStandardMaterial color={color} />
+          {/* Sleek wooden legs */}
+          {[[-0.25, -0.15], [0.25, -0.15], [-0.25, 0.25], [0.25, 0.25]].map(([x, z], i) => (
+            <mesh key={i} position={[x, 0, z]} rotation={[0, i * Math.PI / 8, 0]}>
+              <cylinderGeometry args={[0.025, 0.035, 0.85]} />
+              <meshStandardMaterial color="#8B4513" roughness={0.9} />
+            </mesh>
+          ))}
+        </group>
+      )
+    } else if (modelUrl.includes('sofa1')) {
+      // Elegant vintage-style sofa with ornate details
+      return (
+        <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
+          {/* Main sofa base with curves */}
+          <mesh position={[0, 0.35, 0]}>
+            <boxGeometry args={[2.2, 0.5, 0.9]} />
+            <meshStandardMaterial color="#D3D3D3" roughness={0.6} />
           </mesh>
-          <mesh position={[1.1, 0.8, 0]}>
-            <boxGeometry args={[0.3, 1, 1]} />
-            <meshStandardMaterial color={color} />
+          {/* Curved back with tufting effect */}
+          <mesh position={[0, 0.75, -0.35]} rotation={[0.1, 0, 0]}>
+            <cylinderGeometry args={[0.05, 2.2, 0.8, 32]} />
+            <meshStandardMaterial color="#D3D3D3" roughness={0.6} />
+          </mesh>
+          {/* Ornate curved arms */}
+          <mesh position={[-1.0, 0.7, 0]} rotation={[0, 0, -0.1]}>
+            <sphereGeometry args={[0.35, 12, 8, 0, Math.PI]} />
+            <meshStandardMaterial color="#D3D3D3" roughness={0.6} />
+          </mesh>
+          <mesh position={[1.0, 0.7, 0]} rotation={[0, 0, 0.1]}>
+            <sphereGeometry args={[0.35, 12, 8, 0, Math.PI]} />
+            <meshStandardMaterial color="#D3D3D3" roughness={0.6} />
+          </mesh>
+          {/* Decorative wooden frame */}
+          <mesh position={[0, 0.1, 0.45]}>
+            <boxGeometry args={[2.4, 0.1, 0.05]} />
+            <meshStandardMaterial color="#8B4513" roughness={0.8} />
           </mesh>
         </group>
       )
-    } else if (modelUrl.includes('bed')) {
+    } else if (modelUrl.includes('sofa2')) {
+      // Dark leather sofa set
       return (
         <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
-          {/* Mattress */}
-          <mesh position={[0, 0.3, 0]}>
-            <boxGeometry args={[2, 0.3, 3]} />
-            <meshStandardMaterial color={color} />
+          {/* Main sofa base */}
+          <mesh position={[0, 0.4, 0]}>
+            <boxGeometry args={[2.8, 0.6, 1.1]} />
+            <meshStandardMaterial color="#2F1B14" roughness={0.3} metalness={0.1} />
           </mesh>
-          {/* Headboard */}
-          <mesh position={[0, 0.8, -1.4]}>
+          {/* Backrest with leather texture */}
+          <mesh position={[0, 0.9, -0.45]}>
+            <boxGeometry args={[2.8, 1.0, 0.2]} />
+            <meshStandardMaterial color="#2F1B14" roughness={0.3} metalness={0.1} />
+          </mesh>
+          {/* Chunky arms */}
+          <mesh position={[-1.3, 0.8, 0]}>
+            <boxGeometry args={[0.3, 0.8, 1.1]} />
+            <meshStandardMaterial color="#2F1B14" roughness={0.3} metalness={0.1} />
+          </mesh>
+          <mesh position={[1.3, 0.8, 0]}>
+            <boxGeometry args={[0.3, 0.8, 1.1]} />
+            <meshStandardMaterial color="#2F1B14" roughness={0.3} metalness={0.1} />
+          </mesh>
+          {/* Coffee table */}
+          <mesh position={[0, 0.2, 1.8]}>
+            <boxGeometry args={[1.2, 0.05, 0.6]} />
+            <meshStandardMaterial color="#654321" roughness={0.8} />
+          </mesh>
+          {/* Table legs */}
+          {[[-0.5, 0.9], [0.5, 0.9], [-0.5, 1.5], [0.5, 1.5]].map(([x, z], i) => (
+            <mesh key={i} position={[x, 0.1, z]}>
+              <cylinderGeometry args={[0.03, 0.03, 0.4]} />
+              <meshStandardMaterial color="#654321" roughness={0.8} />
+            </mesh>
+          ))}
+        </group>
+      )
+    } else if (modelUrl.includes('bed')) {
+      // Platform bed with white bedding and dark wooden frame
+      return (
+        <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
+          {/* Wooden bed frame */}
+          <mesh position={[0, 0.25, 0]}>
+            <boxGeometry args={[2.1, 0.1, 3.1]} />
+            <meshStandardMaterial color="#654321" roughness={0.8} />
+          </mesh>
+          {/* White mattress */}
+          <mesh position={[0, 0.35, 0]}>
+            <boxGeometry args={[2.0, 0.2, 3.0]} />
+            <meshStandardMaterial color="#FFFFFF" roughness={0.9} />
+          </mesh>
+          {/* White bedding/comforter */}
+          <mesh position={[0, 0.42, 0]} rotation={[0, 0, 0]}>
+            <boxGeometry args={[1.95, 0.05, 2.9]} />
+            <meshStandardMaterial color="#F8F8FF" roughness={0.8} />
+          </mesh>
+          {/* Dark wooden headboard */}
+          <mesh position={[0, 0.9, -1.5]}>
             <boxGeometry args={[2.2, 1.2, 0.1]} />
-            <meshStandardMaterial color="#654321" />
+            <meshStandardMaterial color="#4A4A4A" roughness={0.7} />
+          </mesh>
+          {/* Pillows */}
+          <mesh position={[-0.4, 0.5, -1.2]}>
+            <boxGeometry args={[0.4, 0.15, 0.3]} />
+            <meshStandardMaterial color="#FFFFFF" roughness={0.9} />
+          </mesh>
+          <mesh position={[0.4, 0.5, -1.2]}>
+            <boxGeometry args={[0.4, 0.15, 0.3]} />
+            <meshStandardMaterial color="#FFFFFF" roughness={0.9} />
           </mesh>
         </group>
       )
